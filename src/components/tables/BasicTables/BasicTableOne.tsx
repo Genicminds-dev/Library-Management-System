@@ -3,7 +3,7 @@ import { ChevronUp, ChevronDown, Eye, Pencil, Trash2 } from "lucide-react";
 import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
 import PageMeta from "../../../components/common/PageMeta";
 import Badge from "../../ui/badge/Badge";
-
+ 
 const booksData = [
   {
     id: "ASP-BO-01",
@@ -96,21 +96,21 @@ const booksData = [
     status: "Lended",
   },
 ];
-
+ 
 const ITEMS_PER_PAGE = 8;
-
+ 
 export default function BookTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
-
+ 
   const handleSort = (key) => {
     setSortConfig((prev) => ({
       key,
       direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
     }));
   };
-
+ 
   const sortedBooks = useMemo(() => {
     const sorted = [...booksData].filter(
       (book) =>
@@ -118,12 +118,12 @@ export default function BookTable() {
         book.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.author.toLowerCase().includes(searchTerm.toLowerCase())
     );
-
+ 
     if (sortConfig.key) {
       sorted.sort((a, b) => {
         const valA = a[sortConfig.key];
         const valB = b[sortConfig.key];
-
+ 
         if (typeof valA === "string") {
           return sortConfig.direction === "asc"
             ? valA.localeCompare(valB)
@@ -135,16 +135,16 @@ export default function BookTable() {
         }
       });
     }
-
+ 
     return sorted;
   }, [searchTerm, sortConfig]);
-
+ 
   const totalPages = Math.ceil(sortedBooks.length / ITEMS_PER_PAGE);
   const paginatedBooks = sortedBooks.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
-
+ 
   const badgeColor = (status) => {
     switch (status) {
       case "Available":
@@ -157,23 +157,23 @@ export default function BookTable() {
         return "gray";
     }
   };
-
+ 
   const renderSortIcon = (key) => {
     if (sortConfig.key !== key) return null;
     return sortConfig.direction === "asc" ? <ChevronUp size={16} /> : <ChevronDown size={16} />;
   };
-
+ 
   const goToPage = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
   };
-
+ 
   return (
     <>
       <PageMeta title="Book List | TailAdmin" description="Book list with search and pagination" />
       <PageBreadcrumb pageTitle="Book List" />
-
+ 
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
         <div className="mb-5 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
           <input
@@ -190,20 +190,20 @@ export default function BookTable() {
             + Add Book
           </button>
         </div>
-
+ 
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-gray-100">
               <tr>
                 {["id", "title", "author", "category", "language", "copies", "status", "action"].map((key) => (
-                  <th 
-                    key={key} 
+                  <th
+                    key={key}
                     className="px-4 py-3 cursor-pointer select-none whitespace-nowrap"
                     onClick={() => key !== "action" && handleSort(key)}
                   >
                     <div className="flex items-center gap-1 capitalize">
-                      {key === "id" ? "Book ID" : 
-                       key === "copies" ? "Total Copies" : 
+                      {key === "id" ? "Book ID" :
+                       key === "copies" ? "Total Copies" :
                        key === "action" ? "Action" : key}
                       {key !== "action" && renderSortIcon(key)}
                     </div>
@@ -246,7 +246,7 @@ export default function BookTable() {
             </tbody>
           </table>
         </div>
-
+ 
         {totalPages > 1 && (
           <div className="mt-6 flex justify-center space-x-2 text-sm">
             <button

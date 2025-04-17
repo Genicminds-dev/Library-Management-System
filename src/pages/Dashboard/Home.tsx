@@ -188,7 +188,7 @@ export default function Home() {
                       dataKey="value"
                       nameKey="name"
                     >
-                      {locationData.map((entry, index) => (
+                      {locationData.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>

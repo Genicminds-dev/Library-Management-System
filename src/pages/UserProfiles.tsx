@@ -96,7 +96,7 @@ export default function StudentList() {
               ))}
               {currentStudents.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="px-4 py-4 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-4 text-center text-gray-500">
                     No students found.
                   </td>
                 </tr>
