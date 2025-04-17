@@ -15,7 +15,7 @@ export default function SignInForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Only redirect if both fields are filled
     if (email && password) {
       navigate('/');
@@ -41,8 +41,8 @@ export default function SignInForm() {
                   <Label>
                     Email <span className="text-error-500">*</span>{" "}
                   </Label>
-                  <Input 
-                    placeholder="info@gmail.com" 
+                  <Input
+                    placeholder="info@gmail.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
@@ -85,7 +85,7 @@ export default function SignInForm() {
                   </Link>
                 </div>
                 <div>
-                  <Button type={"submit" as "button"} className="w-full" size="sm">
+                  <Button type="submit" className="w-full" size="sm">
                     Sign in
                   </Button>
                 </div>
