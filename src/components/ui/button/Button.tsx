@@ -8,7 +8,7 @@ interface ButtonProps {
   endIcon?: ReactNode; // Icon after the text
   onClick?: () => void; // Click handler
   disabled?: boolean; // Disabled state
-  className?: string; // Disabled state
+  className?: string; // Additional custom class names
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   // Size Classes
   const sizeClasses = {
-    sm: "px-4 py-3 text-sm",
+    sm: "px-3 py-1.5 text-sm",
     md: "px-5 py-3.5 text-sm",
   };
 
