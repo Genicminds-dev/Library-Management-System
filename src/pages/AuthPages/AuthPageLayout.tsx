@@ -8,13 +8,16 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative p-6 bg-white z-1 dark:bg-gray-900 sm:p-0">
+    <div className="relative p-6 bg-white dark:bg-gray-900 sm:p-0 overflow-hidden">
       <div className="relative flex flex-col justify-center w-full h-screen lg:flex-row dark:bg-gray-900 sm:p-0">
-        <div className="items-center hidden w-full h-full lg:w-1/2 lg:grid relative bg-brand-950 dark:bg-white/5">
+        <div className="items-center hidden w-full h-full lg:w-1/2 lg:grid relative bg-brand-950 dark:bg-white/5 overflow-hidden">
           {/* Watermark Background Image */}
           <div
-            className="absolute inset-0 w-[150%] h-[150%] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-contain bg-center opacity-20 dark:opacity-10 bg-no-repeat"
-            style={{ backgroundImage: `url(${image})` }}
+            className="absolute inset-0 w-full h-full bg-contain bg-center opacity-20 dark:opacity-10 bg-no-repeat"
+            style={{ 
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover' // or 'contain' depending on your preference
+            }}
           ></div>
 
           {/* Content */}
@@ -36,6 +39,6 @@ export default function AuthLayout({
           <ThemeTogglerTwo />
         </div>
       </div>
-    </div >
+    </div>
   );
 }
