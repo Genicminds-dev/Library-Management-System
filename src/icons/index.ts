@@ -1,3 +1,16 @@
+import { ReactComponent as BookIcon } from "./book.svg?react";
+import { ReactComponent as BookOpenIcon } from "./book-open.svg?react";
+import { ReactComponent as BooksStackIcon } from "./books-stack.svg?react";
+import { ReactComponent as LendingIcon } from "./lending.svg?react"; // or use arrow-right with a book
+import { ReactComponent as ReturnIcon } from "./return.svg?react"; // or use arrow-left with a book
+import { ReactComponent as MemberIcon } from "./member.svg?react"; // or use user-group
+import { ReactComponent as LibraryIcon } from "./library.svg?react";
+import { ReactComponent as DueDateIcon } from "./due-date.svg?react"; // could be calendar with exclamation
+import { ReactComponent as FineIcon } from "./fine.svg?react"; // could be dollar-sign with alert
+import { ReactComponent as BarcodeIcon } from "./barcode.svg?react";
+import { ReactComponent as SearchBookIcon } from "./search-book.svg?react"; // magnifying glass with book
+import { ReactComponent as ReportIcon } from "./report.svg?react";
+import { ReactComponent as ReservationIcon } from "./reservation.svg?react";
 import { ReactComponent as PlusIcon } from "./plus.svg?react";
 import { ReactComponent as CloseIcon } from "./close.svg?react";
 import { ReactComponent as BoxIcon } from "./box.svg?react";
@@ -54,6 +67,19 @@ import { ReactComponent as AlertHexaIcon } from "./alert-hexa.svg?react";
 import { ReactComponent as ErrorHexaIcon } from "./info-hexa.svg?react";
 
 export {
+  BookIcon,
+  BookOpenIcon,
+  BooksStackIcon,
+  LendingIcon,
+  ReturnIcon,
+  MemberIcon,
+  LibraryIcon,
+  DueDateIcon,
+  FineIcon,
+  BarcodeIcon,
+  SearchBookIcon,
+  ReportIcon,
+  ReservationIcon,
   ErrorHexaIcon,
   AlertHexaIcon,
   MoreDotIcon,

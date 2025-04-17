@@ -1,3 +1,212 @@
+// import { useState, useMemo } from "react";
+// import {
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableHeader,
+//   TableRow,
+// } from "../../ui/table";
+// import Badge from "../../ui/badge/Badge";
+
+// const booksData = [
+//   {
+//     id: "ASP-BO-01",
+//     title: "The Great Gatsby",
+//     author: "F. Scott Fitzgerald",
+//     category: "Fiction",
+//     language: "English",
+//     copies: 10,
+//     status: "Available",
+//   },
+//   {
+//     id: "ASP-BO-02",
+//     title: "To Kill a Mockingbird",
+//     author: "George Orwell",
+//     category: "Ux-UI Design Book",
+//     language: "English",
+//     copies: 5,
+//     status: "Available",
+//   },
+//   {
+//     id: "ASP-BO-03",
+//     title: "Pirates of the Caribbean",
+//     author: "Jane Austen",
+//     category: "Non-Fiction",
+//     language: "Tamil",
+//     copies: 3,
+//     status: "Lended",
+//   },
+//   {
+//     id: "ASP-BO-04",
+//     title: "Pride and Prejudice",
+//     author: "J.D. Salinger",
+//     category: "Romance",
+//     language: "English",
+//     copies: 2,
+//     status: "Available",
+//   },
+//   {
+//     id: "ASP-BO-05",
+//     title: "Sapiens: A Brief History",
+//     author: "Stephen Hawking",
+//     category: "Ux-UI Design Book",
+//     language: "English",
+//     copies: 1,
+//     status: "Damaged",
+//   },
+//   {
+//     id: "ASP-BO-06",
+//     title: "The Catcher in the Rye",
+//     author: "John Peter",
+//     category: "Fiction",
+//     language: "English",
+//     copies: 5,
+//     status: "Damaged",
+//   },
+//   {
+//     id: "ASP-BO-07",
+//     title: "The Alchemist",
+//     author: "Sara Jones",
+//     category: "Non-Fiction",
+//     language: "English",
+//     copies: 10,
+//     status: "Lended",
+//   },
+//   {
+//     id: "ASP-BO-08",
+//     title: "A Brief History of Time",
+//     author: "Will Turner",
+//     category: "Science",
+//     language: "English",
+//     copies: 20,
+//     status: "Lended",
+//   },
+//   {
+//     id: "ASP-BO-09",
+//     title: "The Diary of a Young",
+//     author: "Dwayne Smith",
+//     category: "Memoir",
+//     language: "English",
+//     copies: 30,
+//     status: "Lended",
+//   },
+//   {
+//     id: "ASP-BO-10",
+//     title: "Ux-UI Design Book",
+//     author: "Anne Frank",
+//     category: "Visual Design",
+//     language: "English",
+//     copies: 50,
+//     status: "Lended",
+//   },
+// ];
+
+// const ITEMS_PER_PAGE = 5;
+
+// export default function BookTable() {
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [currentPage, setCurrentPage] = useState(1);
+
+//   const filteredBooks = useMemo(() => {
+//     return booksData.filter((book) =>
+//       book.title.toLowerCase().includes(searchTerm.toLowerCase())
+//     );
+//   }, [searchTerm]);
+
+//   const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
+
+//   const paginatedBooks = useMemo(() => {
+//     const start = (currentPage - 1) * ITEMS_PER_PAGE;
+//     return filteredBooks.slice(start, start + ITEMS_PER_PAGE);
+//   }, [filteredBooks, currentPage]);
+
+//   const badgeColor = (status: string) => {
+//     switch (status) {
+//       case "Available":
+//         return "success";
+//       case "Lended":
+//         return "warning";
+//       case "Damaged":
+//         return "error";
+//       default:
+//         return "gray";
+//     }
+//   };
+
+//   return (
+//     <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+//       <div className="p-4 flex items-center justify-between">
+//         <input
+//           type="text"
+//           placeholder="Search books"
+//           value={searchTerm}
+//           onChange={(e) => setSearchTerm(e.target.value)}
+//           className="w-1/3 border border-gray-300 rounded px-3 py-2 text-sm"
+//         />
+//         <div className="flex gap-2">
+//           <button className="bg-purple-600 text-white px-4 py-2 rounded">Add Books</button>
+//           <button className="bg-gray-200 text-black px-4 py-2 rounded">Actions</button>
+//         </div>
+//       </div>
+
+//       <div className="overflow-x-auto">
+//         <Table>
+//           <TableHeader>
+//             <TableRow>
+//               <TableCell isHeader>Book ID</TableCell>
+//               <TableCell isHeader>Book Title</TableCell>
+//               <TableCell isHeader>Author(s)</TableCell>
+//               <TableCell isHeader>Genre/Category</TableCell>
+//               <TableCell isHeader>Language</TableCell>
+//               <TableCell isHeader>Total Copies</TableCell>
+//               <TableCell isHeader>Status</TableCell>
+//             </TableRow>
+//           </TableHeader>
+
+//           <TableBody>
+//             {paginatedBooks.map((book) => (
+//               <TableRow key={book.id}>
+//                 <TableCell>{book.id}</TableCell>
+//                 <TableCell className="text-blue-600 cursor-pointer">{book.title}</TableCell>
+//                 <TableCell>{book.author}</TableCell>
+//                 <TableCell>{book.category}</TableCell>
+//                 <TableCell>{book.language}</TableCell>
+//                 <TableCell>{book.copies}</TableCell>
+//                 <TableCell>
+//                   <Badge>{book.status}</Badge>
+//                 </TableCell>
+//               </TableRow>
+//             ))}
+//           </TableBody>
+//         </Table>
+//       </div>
+
+//       <div className="flex items-center justify-between p-4">
+//         <p className="text-sm text-gray-500">
+//           Total Books: {filteredBooks.length}
+//         </p>
+//         <div className="flex gap-2">
+//           {[...Array(totalPages)].map((_, index) => (
+//             <button
+//               key={index}
+//               onClick={() => setCurrentPage(index + 1)}
+//               className={`w-8 h-8 text-sm rounded-full ${
+//                 currentPage === index + 1
+//                   ? "bg-purple-600 text-white"
+//                   : "bg-gray-100 text-gray-700"
+//               }`}
+//             >
+//               {index + 1}
+//             </button>
+//           ))}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+import { useState, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -5,217 +214,243 @@ import {
   TableHeader,
   TableRow,
 } from "../../ui/table";
-
 import Badge from "../../ui/badge/Badge";
+import { ChevronUp, ChevronDown } from "lucide-react";
 
-interface Order {
-  id: number;
-  user: {
-    image: string;
-    name: string;
-    role: string;
-  };
-  projectName: string;
-  team: {
-    images: string[];
-  };
-  status: string;
-  budget: string;
-}
-
-// Define the table data using the interface
-const tableData: Order[] = [
+const booksData = [
   {
-    id: 1,
-    user: {
-      image: "/images/user/user-17.jpg",
-      name: "Lindsey Curtis",
-      role: "Web Designer",
-    },
-    projectName: "Agency Website",
-    team: {
-      images: [
-        "/images/user/user-22.jpg",
-        "/images/user/user-23.jpg",
-        "/images/user/user-24.jpg",
-      ],
-    },
-    budget: "3.9K",
-    status: "Active",
+    id: "ASP-BO-01",
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    category: "Fiction",
+    language: "English",
+    copies: 10,
+    status: "Available",
   },
   {
-    id: 2,
-    user: {
-      image: "/images/user/user-18.jpg",
-      name: "Kaiya George",
-      role: "Project Manager",
-    },
-    projectName: "Technology",
-    team: {
-      images: ["/images/user/user-25.jpg", "/images/user/user-26.jpg"],
-    },
-    budget: "24.9K",
-    status: "Pending",
+    id: "ASP-BO-02",
+    title: "To Kill a Mockingbird",
+    author: "George Orwell",
+    category: "Ux-UI Design Book",
+    language: "English",
+    copies: 5,
+    status: "Available",
   },
   {
-    id: 3,
-    user: {
-      image: "/images/user/user-17.jpg",
-      name: "Zain Geidt",
-      role: "Content Writing",
-    },
-    projectName: "Blog Writing",
-    team: {
-      images: ["/images/user/user-27.jpg"],
-    },
-    budget: "12.7K",
-    status: "Active",
+    id: "ASP-BO-03",
+    title: "Pirates of the Caribbean",
+    author: "Jane Austen",
+    category: "Non-Fiction",
+    language: "Tamil",
+    copies: 3,
+    status: "Lended",
   },
   {
-    id: 4,
-    user: {
-      image: "/images/user/user-20.jpg",
-      name: "Abram Schleifer",
-      role: "Digital Marketer",
-    },
-    projectName: "Social Media",
-    team: {
-      images: [
-        "/images/user/user-28.jpg",
-        "/images/user/user-29.jpg",
-        "/images/user/user-30.jpg",
-      ],
-    },
-    budget: "2.8K",
-    status: "Cancel",
+    id: "ASP-BO-04",
+    title: "Pride and Prejudice",
+    author: "J.D. Salinger",
+    category: "Romance",
+    language: "English",
+    copies: 2,
+    status: "Available",
   },
   {
-    id: 5,
-    user: {
-      image: "/images/user/user-21.jpg",
-      name: "Carla George",
-      role: "Front-end Developer",
-    },
-    projectName: "Website",
-    team: {
-      images: [
-        "/images/user/user-31.jpg",
-        "/images/user/user-32.jpg",
-        "/images/user/user-33.jpg",
-      ],
-    },
-    budget: "4.5K",
-    status: "Active",
+    id: "ASP-BO-05",
+    title: "Sapiens: A Brief History",
+    author: "Stephen Hawking",
+    category: "Ux-UI Design Book",
+    language: "English",
+    copies: 1,
+    status: "Damaged",
+  },
+  {
+    id: "ASP-BO-06",
+    title: "The Catcher in the Rye",
+    author: "John Peter",
+    category: "Fiction",
+    language: "English",
+    copies: 5,
+    status: "Damaged",
+  },
+  {
+    id: "ASP-BO-07",
+    title: "The Alchemist",
+    author: "Sara Jones",
+    category: "Non-Fiction",
+    language: "English",
+    copies: 10,
+    status: "Lended",
+  },
+  {
+    id: "ASP-BO-08",
+    title: "A Brief History of Time",
+    author: "Will Turner",
+    category: "Science",
+    language: "English",
+    copies: 20,
+    status: "Lended",
+  },
+  {
+    id: "ASP-BO-09",
+    title: "The Diary of a Young",
+    author: "Dwayne Smith",
+    category: "Memoir",
+    language: "English",
+    copies: 30,
+    status: "Lended",
+  },
+  {
+    id: "ASP-BO-10",
+    title: "Ux-UI Design Book",
+    author: "Anne Frank",
+    category: "Visual Design",
+    language: "English",
+    copies: 50,
+    status: "Lended",
   },
 ];
 
-export default function BasicTableOne() {
+const ITEMS_PER_PAGE = 5;
+
+export default function BookTable() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
+
+  const handleSort = (key: string) => {
+    setSortConfig((prev) => ({
+      key,
+      direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
+    }));
+  };
+
+  const sortedBooks = useMemo(() => {
+    const sorted = [...booksData].filter((book) =>
+      book.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (sortConfig.key) {
+      sorted.sort((a, b) => {
+        const valA = a[sortConfig.key];
+        const valB = b[sortConfig.key];
+
+        if (typeof valA === "string") {
+          return sortConfig.direction === "asc"
+            ? valA.localeCompare(valB)
+            : valB.localeCompare(valA);
+        } else {
+          return sortConfig.direction === "asc"
+            ? valA - valB
+            : valB - valA;
+        }
+      });
+    }
+
+    return sorted;
+  }, [searchTerm, sortConfig]);
+
+  const totalPages = Math.ceil(sortedBooks.length / ITEMS_PER_PAGE);
+  const paginatedBooks = sortedBooks.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const badgeColor = (status: string) => {
+    switch (status) {
+      case "Available":
+        return "success";
+      case "Lended":
+        return "warning";
+      case "Damaged":
+        return "error";
+      default:
+        return "gray";
+    }
+  };
+
+  const renderSortIcon = (key: string) => {
+    if (sortConfig.key !== key) return null;
+    return sortConfig.direction === "asc" ? <ChevronUp size={16} /> : <ChevronDown size={16} />;
+  };
+
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-      <div className="max-w-full overflow-x-auto">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
+      <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <input
+          type="text"
+          placeholder="Search books"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full sm:w-1/3 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <div className="flex gap-2 self-end sm:self-auto">
+          <button className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 text-sm">
+            Add Book
+          </button>
+          <button className="bg-gray-200 text-black px-4 py-2 rounded text-sm hover:bg-gray-300">
+            Actions
+          </button>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
         <Table>
-          {/* Table Header */}
-          <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+          <TableHeader>
             <TableRow>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-              >
-                User
-              </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-              >
-                Project Name
-              </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-              >
-                Team
-              </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-              >
-                Status
-              </TableCell>
-              <TableCell
-                isHeader
-                className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-              >
-                Budget
-              </TableCell>
+              {["id", "title", "author", "category", "language", "copies", "status"].map((key) => (
+                <TableCell
+                  isHeader
+                  key={key}
+                  className="cursor-pointer select-none whitespace-nowrap"
+                  onClick={() => handleSort(key)}
+                >
+                  <div className="flex items-center gap-1 capitalize">
+                    {key === "id" ? "Book ID" : key === "copies" ? "Total Copies" : key}
+                    {renderSortIcon(key)}
+                  </div>
+                </TableCell>
+              ))}
             </TableRow>
           </TableHeader>
 
-          {/* Table Body */}
-          <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-            {tableData.map((order) => (
-              <TableRow key={order.id}>
-                <TableCell className="px-5 py-4 sm:px-6 text-start">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 overflow-hidden rounded-full">
-                      <img
-                        width={40}
-                        height={40}
-                        src={order.user.image}
-                        alt={order.user.name}
-                      />
-                    </div>
-                    <div>
-                      <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                        {order.user.name}
-                      </span>
-                      <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                        {order.user.role}
-                      </span>
-                    </div>
-                  </div>
+          <TableBody>
+            {paginatedBooks.map((book) => (
+              <TableRow key={book.id}>
+                <TableCell>{book.id}</TableCell>
+                <TableCell className="text-blue-600 cursor-pointer hover:underline">
+                  {book.title}
                 </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  {order.projectName}
-                </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <div className="flex -space-x-2">
-                    {order.team.images.map((teamImage, index) => (
-                      <div
-                        key={index}
-                        className="w-6 h-6 overflow-hidden border-2 border-white rounded-full dark:border-gray-900"
-                      >
-                        <img
-                          width={24}
-                          height={24}
-                          src={teamImage}
-                          alt={`Team member ${index + 1}`}
-                          className="w-full size-6"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                  <Badge
-                    size="sm"
-                    color={
-                      order.status === "Active"
-                        ? "success"
-                        : order.status === "Pending"
-                        ? "warning"
-                        : "error"
-                    }
-                  >
-                    {order.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                  {order.budget}
+                <TableCell>{book.author}</TableCell>
+                <TableCell>{book.category}</TableCell>
+                <TableCell>{book.language}</TableCell>
+                <TableCell>{book.copies}</TableCell>
+                <TableCell>
+                  <Badge color={badgeColor(book.status)}>{book.status}</Badge>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+      </div>
+
+      <div className="flex items-center justify-between p-4">
+        <p className="text-sm text-gray-500">
+          Showing {paginatedBooks.length} of {sortedBooks.length} books
+        </p>
+        <div className="flex gap-1">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className={`w-8 h-8 text-sm rounded-full ${currentPage === index + 1
+                  ? "bg-purple-600 text-white"
+                  : "bg-gray-200 text-gray-800"
+                }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
