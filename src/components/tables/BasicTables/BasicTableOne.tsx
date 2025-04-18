@@ -3,8 +3,18 @@ import { ChevronUp, ChevronDown, Eye, Pencil, Trash2 } from "lucide-react";
 import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
 import PageMeta from "../../../components/common/PageMeta";
 import Badge from "../../ui/badge/Badge";
- 
-const booksData = [
+
+type Book = {
+  id: string;
+  title: string;
+  author: string;
+  category: string;
+  language: string;
+  copies: number;
+  status: string;
+};
+
+const booksData: Book[] = [
   {
     id: "ASP-BO-01",
     title: "The Great Gatsby",
@@ -96,56 +106,59 @@ const booksData = [
     status: "Lended",
   },
 ];
- 
+
 const ITEMS_PER_PAGE = 8;
- 
+
 export default function BookTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
- 
-  const handleSort = (key) => {
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof Book | null;
+    direction: "asc" | "desc";
+  }>({ key: null, direction: "asc" });
+
+  const handleSort = (key: keyof Book) => {
     setSortConfig((prev) => ({
       key,
       direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
     }));
   };
- 
+
   const sortedBooks = useMemo(() => {
-    const sorted = [...booksData].filter(
+    const filtered = booksData.filter(
       (book) =>
         book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         book.author.toLowerCase().includes(searchTerm.toLowerCase())
     );
- 
+
     if (sortConfig.key) {
-      sorted.sort((a, b) => {
-        const valA = a[sortConfig.key];
-        const valB = b[sortConfig.key];
- 
-        if (typeof valA === "string") {
+      filtered.sort((a, b) => {
+        const valA = a[sortConfig.key!];
+        const valB = b[sortConfig.key!];
+
+        if (typeof valA === "string" && typeof valB === "string") {
           return sortConfig.direction === "asc"
             ? valA.localeCompare(valB)
             : valB.localeCompare(valA);
-        } else {
-          return sortConfig.direction === "asc"
-            ? valA - valB
-            : valB - valA;
+        } else if (typeof valA === "number" && typeof valB === "number") {
+          return sortConfig.direction === "asc" ? valA - valB : valB - valA;
         }
+
+        return 0;
       });
     }
- 
-    return sorted;
+
+    return filtered;
   }, [searchTerm, sortConfig]);
- 
+
   const totalPages = Math.ceil(sortedBooks.length / ITEMS_PER_PAGE);
   const paginatedBooks = sortedBooks.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
- 
-  const badgeColor = (status) => {
+
+  const badgeColor = (status: string) => {
     switch (status) {
       case "Available":
         return "success";
@@ -157,23 +170,23 @@ export default function BookTable() {
         return "gray";
     }
   };
- 
-  const renderSortIcon = (key) => {
+
+  const renderSortIcon = (key: keyof Book) => {
     if (sortConfig.key !== key) return null;
     return sortConfig.direction === "asc" ? <ChevronUp size={16} /> : <ChevronDown size={16} />;
   };
- 
-  const goToPage = (pageNumber) => {
+
+  const goToPage = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
   };
- 
+
   return (
     <>
       <PageMeta title="Book List | TailAdmin" description="Book list with search and pagination" />
       <PageBreadcrumb pageTitle="Book List" />
- 
+
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
         <div className="mb-5 flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
           <input
@@ -190,32 +203,42 @@ export default function BookTable() {
             + Add Book
           </button>
         </div>
- 
+
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-gray-100">
               <tr>
-                {["id", "title", "author", "category", "language", "copies", "status", "action"].map((key) => (
-                  <th
-                    key={key}
-                    className="px-4 py-3 cursor-pointer select-none whitespace-nowrap"
-                    onClick={() => key !== "action" && handleSort(key)}
-                  >
-                    <div className="flex items-center gap-1 capitalize">
-                      {key === "id" ? "Book ID" :
-                       key === "copies" ? "Total Copies" :
-                       key === "action" ? "Action" : key}
-                      {key !== "action" && renderSortIcon(key)}
-                    </div>
-                  </th>
-                ))}
+                {["id", "title", "author", "category", "language", "copies", "status", "action"].map(
+                  (key) => (
+                    <th
+                      key={key}
+                      className="px-4 py-3 cursor-pointer select-none whitespace-nowrap"
+                      onClick={() =>
+                        key !== "action" && handleSort(key as keyof Book)
+                      }
+                    >
+                      <div className="flex items-center gap-1 capitalize">
+                        {key === "id"
+                          ? "Book ID"
+                          : key === "copies"
+                          ? "Total Copies"
+                          : key === "action"
+                          ? "Action"
+                          : key}
+                        {key !== "action" && renderSortIcon(key as keyof Book)}
+                      </div>
+                    </th>
+                  )
+                )}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {paginatedBooks.map((book) => (
                 <tr key={book.id}>
                   <td className="px-4 py-3">{book.id}</td>
-                  <td className="px-4 py-3 text-indigo-600 font-medium">{book.title}</td>
+                  <td className="px-4 py-3 text-indigo-600 font-medium">
+                    {book.title}
+                  </td>
                   <td className="px-4 py-3">{book.author}</td>
                   <td className="px-4 py-3">{book.category}</td>
                   <td className="px-4 py-3">{book.language}</td>
@@ -224,13 +247,22 @@ export default function BookTable() {
                     <Badge color={badgeColor(book.status)}>{book.status}</Badge>
                   </td>
                   <td className="px-4 py-3 flex space-x-3">
-                    <button className="text-blue-600 hover:text-blue-800" title="View">
+                    <button
+                      className="text-blue-600 hover:text-blue-800"
+                      title="View"
+                    >
                       <Eye size={18} />
                     </button>
-                    <button className="text-yellow-500 hover:text-yellow-600" title="Edit">
+                    <button
+                      className="text-yellow-500 hover:text-yellow-600"
+                      title="Edit"
+                    >
                       <Pencil size={18} />
                     </button>
-                    <button className="text-red-600 hover:text-red-800" title="Delete">
+                    <button
+                      className="text-red-600 hover:text-red-800"
+                      title="Delete"
+                    >
                       <Trash2 size={18} />
                     </button>
                   </td>
@@ -238,7 +270,7 @@ export default function BookTable() {
               ))}
               {paginatedBooks.length === 0 && (
                 <tr>
-                  <td colSpan="8" className="px-4 py-4 text-center text-gray-500">
+                  <td colSpan={8} className="px-4 py-4 text-center text-gray-500">
                     No books found.
                   </td>
                 </tr>
@@ -246,7 +278,7 @@ export default function BookTable() {
             </tbody>
           </table>
         </div>
- 
+
         {totalPages > 1 && (
           <div className="mt-6 flex justify-center space-x-2 text-sm">
             <button
@@ -261,7 +293,9 @@ export default function BookTable() {
                 key={pageNum}
                 onClick={() => goToPage(pageNum)}
                 className={`rounded-md border px-3 py-1 ${
-                  pageNum === currentPage ? "bg-indigo-600 text-white" : "hover:bg-gray-100"
+                  pageNum === currentPage
+                    ? "bg-indigo-600 text-white"
+                    : "hover:bg-gray-100"
                 }`}
               >
                 {pageNum}
