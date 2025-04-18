@@ -14,7 +14,7 @@ import {
   // TableIcon,
   // UserCircleIcon,
   BookOpenIcon,
-  LendingIcon,
+  // LendingIcon,
   MemberIcon,
 } from "../icons";
 
@@ -47,13 +47,13 @@ const navItems: NavItem[] = [
   {
     icon: <BookOpenIcon />,
     name: "Manage Books",
-    path: "/books",
+    path: "/basic-tables",
   },
-  {
-    icon: <LendingIcon />,
-    name: "Lended Books",
-    path: "/lended-books",
-  },
+  // {
+  //   icon: <LendingIcon />,
+  //   name: "Lended Books",
+  //   path: "/lended-books",
+  // },
   {
     icon: <MemberIcon />,
     name: "Members",

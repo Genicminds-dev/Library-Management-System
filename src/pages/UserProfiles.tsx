@@ -4,18 +4,29 @@ import { Link } from "react-router-dom";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
 
+// ✅ Define the Student type
+type Student = {
+  id: string;
+  name: string;
+  email: string;
+  mobile: string;
+  gender: string;
+};
+
 export default function StudentList() {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 2;
 
-  // Fetch students from local storage
+  // ✅ Fetch students from local storage safely
   useEffect(() => {
-    const storedStudents = JSON.parse(localStorage.getItem("students")) || [];
-    setStudents(storedStudents);
+    const storedData = localStorage.getItem("students");
+    const parsedStudents: Student[] = storedData ? JSON.parse(storedData) : [];
+    setStudents(parsedStudents);
   }, []);
 
+  // ✅ Filter logic
   const filteredStudents = students.filter(
     (student) =>
       student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -29,7 +40,8 @@ export default function StudentList() {
   const currentStudents = filteredStudents.slice(indexOfFirstStudent, indexOfLastStudent);
   const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
 
-  const goToPage = (pageNumber) => {
+  // ✅ Add type to parameter
+  const goToPage = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
