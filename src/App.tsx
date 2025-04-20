@@ -19,6 +19,9 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import StudentDetail from "./pages/StudentDetails/StudentDetails";
 import AddStudent from "./pages/StudentDetails/AddStudentDetails";
+import AddBook from "./pages/Tables/AddBook";
+import BookDetail from "./pages/Tables/BookDetails";
+import EditBook from "./pages/Tables/EditBook";
 
 export default function App() {
   return (
@@ -40,6 +43,10 @@ export default function App() {
 
             {/* Tables */}
             <Route path="/basic-tables" element={<BasicTables />} />
+            <Route path="/add-book" element={<AddBook />} />
+            <Route path="/books/:id" element={<BookDetail />} />
+            <Route path="/edit-book/:id" element={<EditBook />} />
+
 
             {/* Ui Elements */}
             <Route path="/alerts" element={<Alerts />} />
@@ -54,6 +61,7 @@ export default function App() {
             <Route path="/bar-chart" element={<BarChart />} />
             <Route path="/student/:id" element={<StudentDetail/>} />
             <Route path="/add-student" element={<AddStudent/>} />
+
           </Route>
 
           {/* Auth Layout */}

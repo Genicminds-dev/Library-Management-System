@@ -13,7 +13,7 @@ type Student = {
   gender: string;
 };
 
-export default function StudentList() {
+export default function UserProfiles() {
   const [students, setStudents] = useState<Student[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +25,12 @@ export default function StudentList() {
     const parsedStudents: Student[] = storedData ? JSON.parse(storedData) : [];
     setStudents(parsedStudents);
   }, []);
+
+  const handleDelete = (id: string) => {
+    const updatedBooks = students.filter(student => student.id !== id);
+    setStudents(updatedBooks);
+    localStorage.setItem('students', JSON.stringify(updatedBooks));
+  };
 
   // ✅ Filter logic
   const filteredStudents = students.filter(
@@ -100,7 +106,7 @@ export default function StudentList() {
                     <button className="text-yellow-500 hover:text-yellow-600" title="Edit">
                       <Pencil size={18} />
                     </button>
-                    <button className="text-red-600 hover:text-red-800" title="Delete">
+                    <button className="text-red-600 hover:text-red-800" title="Delete"  onClick={() => handleDelete(student.id)}>
                       <Trash2 size={18} />
                     </button>
                   </td>
