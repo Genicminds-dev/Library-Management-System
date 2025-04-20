@@ -1,8 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ChevronUp, ChevronDown, Eye, Pencil, Trash2 } from "lucide-react";
 import PageBreadcrumb from "../../../components/common/PageBreadCrumb";
 import PageMeta from "../../../components/common/PageMeta";
 import Badge from "../../ui/badge/Badge";
+import { Link, useNavigate } from "react-router-dom";
 
 type Book = {
   id: string;
@@ -11,117 +12,46 @@ type Book = {
   category: string;
   language: string;
   copies: number;
+  totalCopies: number;
   status: string;
+  [key: string]: any; // For other dynamic properties
 };
 
-const booksData: Book[] = [
-  {
-    id: "ASP-BO-01",
-    title: "The Great Gatsby",
-    author: "F. Scott Fitzgerald",
-    category: "Fiction",
-    language: "English",
-    copies: 10,
-    status: "Available",
-  },
-  {
-    id: "ASP-BO-02",
-    title: "To Kill a Mockingbird",
-    author: "George Orwell",
-    category: "Ux-UI Design Book",
-    language: "English",
-    copies: 5,
-    status: "Available",
-  },
-  {
-    id: "ASP-BO-03",
-    title: "Pirates of the Caribbean",
-    author: "Jane Austen",
-    category: "Non-Fiction",
-    language: "Tamil",
-    copies: 3,
-    status: "Lended",
-  },
-  {
-    id: "ASP-BO-04",
-    title: "Pride and Prejudice",
-    author: "J.D. Salinger",
-    category: "Romance",
-    language: "English",
-    copies: 2,
-    status: "Available",
-  },
-  {
-    id: "ASP-BO-05",
-    title: "Sapiens: A Brief History",
-    author: "Stephen Hawking",
-    category: "Ux-UI Design Book",
-    language: "English",
-    copies: 1,
-    status: "Damaged",
-  },
-  {
-    id: "ASP-BO-06",
-    title: "The Catcher in the Rye",
-    author: "John Peter",
-    category: "Fiction",
-    language: "English",
-    copies: 5,
-    status: "Damaged",
-  },
-  {
-    id: "ASP-BO-07",
-    title: "The Alchemist",
-    author: "Sara Jones",
-    category: "Non-Fiction",
-    language: "English",
-    copies: 10,
-    status: "Lended",
-  },
-  {
-    id: "ASP-BO-08",
-    title: "A Brief History of Time",
-    author: "Will Turner",
-    category: "Science",
-    language: "English",
-    copies: 20,
-    status: "Lended",
-  },
-  {
-    id: "ASP-BO-09",
-    title: "The Diary of a Young",
-    author: "Dwayne Smith",
-    category: "Memoir",
-    language: "English",
-    copies: 30,
-    status: "Lended",
-  },
-  {
-    id: "ASP-BO-10",
-    title: "Ux-UI Design Book",
-    author: "Anne Frank",
-    category: "Visual Design",
-    language: "English",
-    copies: 50,
-    status: "Lended",
-  },
-];
-
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 4;
 
 export default function BookTable() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [booksData, setBooksData] = useState<Book[]>([]);
   const [sortConfig, setSortConfig] = useState<{
     key: keyof Book | null;
     direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Load books from local storage on component mount
+    const storedBooks = localStorage.getItem('books');
+    if (storedBooks) {
+      setBooksData(JSON.parse(storedBooks));
+    }
+  }, []);
 
   const handleSort = (key: keyof Book) => {
     setSortConfig((prev) => ({
       key,
       direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
     }));
+  };
+
+  const handleDelete = (id: string) => {
+    const updatedBooks = booksData.filter(book => book.id !== id);
+    setBooksData(updatedBooks);
+    localStorage.setItem('books', JSON.stringify(updatedBooks));
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/edit-book/${id}`);
   };
 
   const sortedBooks = useMemo(() => {
@@ -150,7 +80,7 @@ export default function BookTable() {
     }
 
     return filtered;
-  }, [searchTerm, sortConfig]);
+  }, [searchTerm, sortConfig, booksData]);
 
   const totalPages = Math.ceil(sortedBooks.length / ITEMS_PER_PAGE);
   const paginatedBooks = sortedBooks.slice(
@@ -162,8 +92,10 @@ export default function BookTable() {
     switch (status) {
       case "Available":
         return "success";
+      case "Reserved":
       case "Lended":
         return "warning";
+      case "Out of Stock":
       case "Damaged":
         return "error";
       default:
@@ -199,9 +131,12 @@ export default function BookTable() {
             }}
             className="w-full max-w-sm rounded-md border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 shadow-sm"
           />
-          <button className="rounded bg-indigo-600 px-3 text-sm py-1.5 text-white hover:bg-indigo-700">
-            + Add Book
-          </button>
+
+          <Link to="/add-book">
+            <button className="rounded bg-indigo-600 px-3 text-sm py-1.5 text-white hover:bg-indigo-700">
+              + Add Book
+            </button>
+          </Link>
         </div>
 
         <div className="overflow-x-auto">
@@ -221,10 +156,10 @@ export default function BookTable() {
                         {key === "id"
                           ? "Book ID"
                           : key === "copies"
-                          ? "Total Copies"
-                          : key === "action"
-                          ? "Action"
-                          : key}
+                            ? "Total Copies"
+                            : key === "action"
+                              ? "Action"
+                              : key}
                         {key !== "action" && renderSortIcon(key as keyof Book)}
                       </div>
                     </th>
@@ -237,31 +172,33 @@ export default function BookTable() {
                 <tr key={book.id}>
                   <td className="px-4 py-3">{book.id}</td>
                   <td className="px-4 py-3 text-indigo-600 font-medium">
-                    {book.title}
+                    <Link to={`/books/${book.id}`}>{book.title}</Link>
                   </td>
                   <td className="px-4 py-3">{book.author}</td>
                   <td className="px-4 py-3">{book.category}</td>
                   <td className="px-4 py-3">{book.language}</td>
-                  <td className="px-4 py-3">{book.copies}</td>
+                  <td className="px-4 py-3">{book.totalCopies}</td>
                   <td className="px-4 py-3">
                     <Badge color={badgeColor(book.status)}>{book.status}</Badge>
                   </td>
                   <td className="px-4 py-3 flex space-x-3">
-                    <button
-                      className="text-blue-600 hover:text-blue-800"
-                      title="View"
-                    >
-                      <Eye size={18} />
-                    </button>
+                    <Link to={`/books/${book.id}`} title="View">
+                      <button className="text-blue-600 hover:text-blue-800">
+                        <Eye size={18} />
+                      </button>
+                    </Link>
+
                     <button
                       className="text-yellow-500 hover:text-yellow-600"
                       title="Edit"
+                      onClick={() => handleEdit(book.id)}
                     >
                       <Pencil size={18} />
                     </button>
                     <button
                       className="text-red-600 hover:text-red-800"
                       title="Delete"
+                      onClick={() => handleDelete(book.id)}
                     >
                       <Trash2 size={18} />
                     </button>
@@ -292,11 +229,10 @@ export default function BookTable() {
               <button
                 key={pageNum}
                 onClick={() => goToPage(pageNum)}
-                className={`rounded-md border px-3 py-1 ${
-                  pageNum === currentPage
+                className={`rounded-md border px-3 py-1 ${pageNum === currentPage
                     ? "bg-indigo-600 text-white"
                     : "hover:bg-gray-100"
-                }`}
+                  }`}
               >
                 {pageNum}
               </button>

@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, ReactNode } from "react";
+import { useState, ChangeEvent, FormEvent, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { User, MapPin, Users } from "lucide-react";
@@ -38,6 +38,13 @@ export default function AddStudent() {
   });
 
   const [qrVisible, setQrVisible] = useState(false);
+
+  // Generate random student ID on component mount
+  useEffect(() => {
+    const randomNum = Math.floor(100000 + Math.random() * 900000); // Generates a random 6-digit number
+    const studentId = `STU${randomNum.toString().padStart(6, '0')}`;
+    setFormData(prev => ({ ...prev, id: studentId }));
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -82,7 +89,13 @@ export default function AddStudent() {
               gradient="from-indigo-50 to-blue-50"
             >
               <Grid>
-                <Input label="Student ID" name="id" value={formData.id} onChange={handleChange} />
+                <Input 
+                  label="Student ID" 
+                  name="id" 
+                  value={formData.id} 
+                  onChange={handleChange} 
+                  readOnly 
+                />
                 <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} />
                 <Input label="Mobile No." name="mobile" value={formData.mobile} onChange={handleChange} />
                 <Input label="Alternate Mobile" name="alternateMobile" value={formData.alternateMobile} onChange={handleChange} />
@@ -177,9 +190,10 @@ interface InputProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   type?: string;
+  readOnly?: boolean;
 }
 
-function Input({ label, name, value, onChange, type = "text" }: InputProps) {
+function Input({ label, name, value, onChange, type = "text", readOnly = false }: InputProps) {
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
       <label className="block text-gray-500 font-medium text-xs uppercase tracking-wider mb-1">
@@ -191,7 +205,10 @@ function Input({ label, name, value, onChange, type = "text" }: InputProps) {
         value={value}
         required
         onChange={onChange}
-        className="w-full p-2 border border-gray-200 rounded-md focus:ring focus:ring-indigo-100 focus:outline-none"
+        readOnly={readOnly}
+        className={`w-full p-2 border border-gray-200 rounded-md focus:ring focus:ring-indigo-100 focus:outline-none ${
+          readOnly ? "bg-gray-50" : ""
+        }`}
         placeholder={label}
       />
     </div>
