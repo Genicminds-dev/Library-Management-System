@@ -1,5 +1,5 @@
 import { Card, CardContent } from "../../components/ui/card/card";
-import Button from "../../components/ui/button/button";
+import Button from "../../components/ui/button/Button";
 import {
   PieChart,
   Pie,
@@ -13,6 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import PageMeta from "../../components/common/PageMeta";
+import { useNavigate } from "react-router-dom";
 
 const metrics = [
   {
@@ -104,6 +105,7 @@ const bookLendingTrendData = [
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF6384", "#AA46BE"];
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <PageMeta title="Library Management System" description="Admin Dashboard" />
@@ -112,7 +114,7 @@ export default function Home() {
           <h2 className="text-xl font-semibold">Welcome Admin</h2>
           <div>
             <span className="text-black-500 mr-2 font-semibold">Quick Actions :</span>
-            <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
+            <Button  onClick={() => navigate("/add-book")} size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
               Add New Book
             </Button>
           </div>

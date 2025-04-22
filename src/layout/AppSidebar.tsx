@@ -14,7 +14,7 @@ import {
   // TableIcon,
   // UserCircleIcon,
   BookOpenIcon,
-  // LendingIcon,
+  LendingIcon,
   MemberIcon,
 } from "../icons";
 
@@ -56,8 +56,14 @@ const navItems: NavItem[] = [
   // },
   {
     icon: <MemberIcon />,
-    name: "Members",
+    name: "Students",
     path: "/profile",
+  },
+
+  {
+    icon: <LendingIcon />,
+    name: "Lended Book",
+    path: "/lended-books",
   },
   // {
   //   name: "Forms",
@@ -298,7 +304,7 @@ const AppSidebar: React.FC = () => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div
-        className={`py-8 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        className={`py-6 flex ${!isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
           }`}
       >
         <Link to="/">
@@ -306,29 +312,29 @@ const AppSidebar: React.FC = () => {
             <>
               <div className="flex items-center dark:hidden">
                 <img
-                  src="https://umc.gov.in/static/media/logo%201.bedac54a0c0dbd601d05.png"
+                  src="/umclogo.png"
                   alt="Logo"
                   width={32}
                   height={32}
                   className="mr-2"
                 />
-                <span className="text-black text-2xl font-bold">UMC Library</span>
+                <span className=" text-2xl font-bold" style={{color:'#662d1e'}}>UMC Library</span>
               </div>
               <div className="hidden dark:flex items-center">
                 <img
-                  src="https://umc.gov.in/static/media/logo%201.bedac54a0c0dbd601d05.png"
+                  src="/umclogo.png"
                   alt="Logo"
                   width={32}
                   height={32}
                   className="mr-2"
                 />
-                <span className="text-white text-2xl font-bold">UMC Library</span>
+                <span className=" text-2xl font-bold" style={{color:'#662d1e'}}>UMC Library</span>
               </div>
             </>
           ) : (
             <div className="flex items-center">
               <img
-                src="https://umc.gov.in/static/media/logo%201.bedac54a0c0dbd601d05.png"
+                src="/umclogo.png"
                 alt="Logo"
                 width={32}
                 height={32}
