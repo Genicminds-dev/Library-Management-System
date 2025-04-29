@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
 
@@ -17,6 +17,7 @@ export default function UserProfiles() {
   const [students, setStudents] = useState<Student[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
   const studentsPerPage = 2;
 
   // ✅ Fetch students from local storage safely
@@ -30,6 +31,10 @@ export default function UserProfiles() {
     const updatedBooks = students.filter(student => student.id !== id);
     setStudents(updatedBooks);
     localStorage.setItem('students', JSON.stringify(updatedBooks));
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/edit-student/${id}`);
   };
 
   // ✅ Filter logic
@@ -103,10 +108,14 @@ export default function UserProfiles() {
                         <Eye size={18} />
                       </button>
                     </Link>
-                    <button className="text-yellow-500 hover:text-yellow-600" title="Edit">
+                    <button
+                      className="text-yellow-500 hover:text-yellow-600"
+                      title="Edit"
+                      onClick={() => handleEdit(student.id)}
+                    >
                       <Pencil size={18} />
                     </button>
-                    <button className="text-red-600 hover:text-red-800" title="Delete"  onClick={() => handleDelete(student.id)}>
+                    <button className="text-red-600 hover:text-red-800" title="Delete" onClick={() => handleDelete(student.id)}>
                       <Trash2 size={18} />
                     </button>
                   </td>

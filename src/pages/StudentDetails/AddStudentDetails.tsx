@@ -89,12 +89,12 @@ export default function AddStudent() {
               gradient="from-indigo-50 to-blue-50"
             >
               <Grid>
-                <Input 
-                  label="Student ID" 
-                  name="id" 
-                  value={formData.id} 
-                  onChange={handleChange} 
-                  readOnly 
+                <Input
+                  label="Student ID"
+                  name="id"
+                  value={formData.id}
+                  onChange={handleChange}
+                  readOnly
                 />
                 <Input label="Full Name" name="name" value={formData.name} onChange={handleChange} />
                 <Input label="Mobile No." name="mobile" value={formData.mobile} onChange={handleChange} />
@@ -139,12 +139,15 @@ export default function AddStudent() {
               </div>
             </Section>
 
-            <button
-              type="submit"
-              className="rounded bg-indigo-600 px-6 py-2 text-white font-semibold hover:bg-indigo-700 transition"
-            >
-              Submit
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="rounded bg-indigo-600 px-6 py-1 text-white font-semibold hover:bg-indigo-700 transition"
+              >
+                Submit
+              </button>
+            </div>
+
 
             {qrVisible && (
               <div className="mt-6 text-center">
@@ -206,9 +209,8 @@ function Input({ label, name, value, onChange, type = "text", readOnly = false }
         required
         onChange={onChange}
         readOnly={readOnly}
-        className={`w-full p-2 border border-gray-200 rounded-md focus:ring focus:ring-indigo-100 focus:outline-none ${
-          readOnly ? "bg-gray-50" : ""
-        }`}
+        className={`w-full p-2 border border-gray-200 rounded-md focus:ring focus:ring-indigo-100 focus:outline-none ${readOnly ? "bg-gray-50" : ""
+          }`}
         placeholder={label}
       />
     </div>

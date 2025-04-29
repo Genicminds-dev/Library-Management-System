@@ -245,13 +245,22 @@ export default function StudentDetail() {
                     bgColor="#ffffff"
                   />
                 </div>
-                <p className="text-sm text-gray-600 text-center max-w-md">
+                <p className="text-sm text-gray-600 text-center max-w-md mb-4">
                   Scan this QR code to quickly access this student's profile.
                   The code contains the student ID:{" "}
                   <span className="font-semibold">{student.id}</span>
                 </p>
+
+                {/* Add Membership Button */}
+                <Link
+                  to={`/membership/${student.id}`}
+                  className="mt-4 inline-block px-6 py-1.5 text-white font-semibold bg-gradient-to-r from-purple-500 to-indigo-500 rounded-lg shadow-md hover:shadow-lg transition-all"
+                >
+                  Add Membership
+                </Link>
               </div>
             </Section>
+
           </div>
         </div>
       </div>

@@ -22,6 +22,11 @@ import AddStudent from "./pages/StudentDetails/AddStudentDetails";
 import AddBook from "./pages/Tables/AddBook";
 import BookDetail from "./pages/Tables/BookDetails";
 import EditBook from "./pages/Tables/EditBook";
+import Membership from "./pages/Membership";
+import Payment from "./pages/Payment";
+import EditStudent from "./pages/StudentDetails/EditStudents";
+import BookIssued from "./pages/Tables/LendedBook";
+import LendedBooksForm from "./pages/Tables/LendedBooksForm";
 
 export default function App() {
   return (
@@ -46,6 +51,10 @@ export default function App() {
             <Route path="/add-book" element={<AddBook />} />
             <Route path="/books/:id" element={<BookDetail />} />
             <Route path="/edit-book/:id" element={<EditBook />} />
+            <Route path="/lended-books-form" element={<LendedBooksForm />} />
+            <Route path="/lended-books" element={<BookIssued />} />
+
+
 
 
             {/* Ui Elements */}
@@ -60,7 +69,10 @@ export default function App() {
             <Route path="/line-chart" element={<LineChart />} />
             <Route path="/bar-chart" element={<BarChart />} />
             <Route path="/student/:id" element={<StudentDetail/>} />
+            <Route path="/edit-student/:id" element={<EditStudent />} />
             <Route path="/add-student" element={<AddStudent/>} />
+            <Route path="/membership/:id" element={<Membership />} />
+            <Route path="/payment" element={<Payment />} />
 
           </Route>
 
