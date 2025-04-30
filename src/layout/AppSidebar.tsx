@@ -318,7 +318,7 @@ const AppSidebar: React.FC = () => {
                   height={32}
                   className="mr-2"
                 />
-                <span className=" text-2xl font-bold" style={{color:'#662d1e'}}>UMC Library</span>
+                <span className=" text-2xl font-bold text-[#662d1e] dark:text-yellow-50">UMC Library</span>
               </div>
               <div className="hidden dark:flex items-center">
                 <img
@@ -328,7 +328,7 @@ const AppSidebar: React.FC = () => {
                   height={32}
                   className="mr-2"
                 />
-                <span className=" text-2xl font-bold" style={{color:'#662d1e'}}>UMC Library</span>
+                <span className=" text-2xl font-bold text-[#662d1e] dark:text-yellow-50">UMC Library</span>
               </div>
             </>
           ) : (

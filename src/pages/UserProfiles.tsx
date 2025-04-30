@@ -97,11 +97,11 @@ export default function UserProfiles() {
             <tbody className="divide-y divide-gray-200">
               {currentStudents.map((student) => (
                 <tr key={student.id}>
-                  <td className="px-4 py-3">{student.id}</td>
+                  <td className="px-4 py-3 dark:text-white">{student.id}</td>
                   <td className="px-4 py-3 text-indigo-600 font-medium">{student.name}</td>
-                  <td className="px-4 py-3">{student.mobile}</td>
-                  <td className="px-4 py-3">{student.email}</td>
-                  <td className="px-4 py-3">{student.gender}</td>
+                  <td className="px-4 py-3 dark:text-white">{student.mobile}</td>
+                  <td className="px-4 py-3 dark:text-white">{student.email}</td>
+                  <td className="px-4 py-3 dark:text-white">{student.gender}</td>
                   <td className="px-4 py-3 flex space-x-3">
                     <Link to={`/student/${student.id}`} state={student}>
                       <button className="text-blue-600 hover:text-blue-800" title="View">

@@ -170,15 +170,15 @@ export default function BookTable() {
             <tbody className="divide-y divide-gray-200">
               {paginatedBooks.map((book) => (
                 <tr key={book.id}>
-                  <td className="px-4 py-3">{book.id}</td>
+                  <td className="px-4 py-3 dark:text-white">{book.id}</td>
                   <td className="px-4 py-3 text-indigo-600 font-medium">
                     <Link to={`/books/${book.id}`}>{book.title}</Link>
                   </td>
-                  <td className="px-4 py-3">{book.author}</td>
-                  <td className="px-4 py-3">{book.category}</td>
-                  <td className="px-4 py-3">{book.language}</td>
-                  <td className="px-4 py-3">{book.totalCopies}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-3 dark:text-white">{book.author}</td>
+                  <td className="px-4 py-3 dark:text-white">{book.category}</td>
+                  <td className="px-4 py-3 dark:text-white">{book.language}</td>
+                  <td className="px-4 py-3 dark:text-white">{book.totalCopies}</td>
+                  <td className="px-4 py-3 dark:text-white">
                     <Badge color={badgeColor(book.status)}>{book.status}</Badge>
                   </td>
                   <td className="px-4 py-3 flex space-x-3">
