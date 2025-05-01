@@ -27,6 +27,8 @@ import Payment from "./pages/Payment";
 import EditStudent from "./pages/StudentDetails/EditStudents";
 import BookIssued from "./pages/Tables/LendedBook";
 import LendedBooksForm from "./pages/Tables/LendedBooksForm";
+import StudentIdCard from "./pages/StudentDetails/StudentIdCard";
+import QrDetailsPage from "./pages/StudentDetails/QrDetailsPage";
 
 export default function App() {
   return (
@@ -72,9 +74,12 @@ export default function App() {
             <Route path="/edit-student/:id" element={<EditStudent />} />
             <Route path="/add-student" element={<AddStudent/>} />
             <Route path="/membership/:id" element={<Membership />} />
+            <Route path="/student-id-card/:id" element={<StudentIdCard />} />
             <Route path="/payment" element={<Payment />} />
 
           </Route>
+          <Route path="/qr-details/:id" element={<QrDetailsPage />} />
+
 
           {/* Auth Layout */}
           <Route path="/signin" element={<SignIn />} />

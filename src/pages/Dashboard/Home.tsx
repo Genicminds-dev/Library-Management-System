@@ -111,9 +111,9 @@ export default function Home() {
       <PageMeta title="Library Management System" description="Admin Dashboard" />
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold">Welcome Admin</h2>
+          <h2 className="text-xl font-semibold dark:text-white">Welcome Admin</h2>
           <div>
-            <span className="text-black-500 mr-2 font-semibold">Quick Actions :</span>
+            <span className="text-black-500 mr-2 font-semibold dark:text-white">Quick Actions :</span>
             <Button  onClick={() => navigate("/add-book")} size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
               Add New Book
             </Button>
@@ -134,7 +134,7 @@ export default function Home() {
                 </div>
                 <div className="text-lg font-medium mt-1">{metric.title}</div>
                 <div className="text-2xl font-bold mt-1">{metric.value}</div>
-                <Button size="sm" variant="outline" className="mt-3">
+                <Button size="sm" variant="outline" className="mt-3 dark:text-purple-600 dark:bg-purple-50 dark:hover:text-purple-700 ">
                   View Details
                 </Button>
               </CardContent>
